@@ -170,12 +170,16 @@ const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+let radius = window.innerWidth < 720 ? 8 : 5;
 
 window.addEventListener('resize', () =>
 {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
+
+    if(sizes.width < 720) radius = 8;
+    else radius = 4;
 
     // Update camera
     camera.aspect = sizes.width / sizes.height
@@ -199,8 +203,13 @@ camera.position.z = 4
 scene.add(camera)
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, 2, 0);
+controls.enableDamping = true;
+
+controls.update(); // compute angles first
+
+
 
 /**
  * Renderer
@@ -235,9 +244,11 @@ const tick = () =>
     
     // Update controls
     // if(axeHandle)console.log(axeHandle.position.y)
+    camera.position.x = Math.cos(elapsedTime * 0.5) * radius;
+    camera.position.z = Math.sin(elapsedTime * 0.5) * radius;
+
     controls.update()
-    camera.position.x = Math.cos(elapsedTime * 0.5) * 5;
-    camera.position.z = Math.sin(elapsedTime * 0.5) * 5;
+    
 
     camera.lookAt(0, 0, 0);  
 
