@@ -143,6 +143,7 @@ const grassMaterial = new THREE.ShaderMaterial({
   vertexShader: floorVertexShader,
   fragmentShader: floorFragmentShader,
   vertexColors: true,
+  side: THREE.DoubleSide
 });
 
 generateField();
