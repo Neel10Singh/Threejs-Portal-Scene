@@ -21,7 +21,8 @@ void main() {
 
     float diff = position.x - cpos.x;
 
-    vec4 worldPosition = vec4(cpos, 1.0);
+    vec4 worldPosition =  modelMatrix * vec4(cpos, 1.0);
+    vUv = (worldPosition.xz + vec2(2.0)) / 4.0;
     vec4 mvPosition = projectionMatrix * modelViewMatrix * vec4(cpos, 1.0);
     gl_Position = mvPosition;
 }
